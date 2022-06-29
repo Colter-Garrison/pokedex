@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getPokemon } from './services/fetch-utils';
 import { getYelp } from './services/fetch-utils';
+import spinner from './ghost-spinner.gif';
 import './App.css';
 
 function App() {
@@ -8,9 +9,12 @@ function App() {
   const [pokemonQuery, setPokemonQuery] = useState([]);
   const [businesses, setBusinesses] = useState([]);
   const [yelpQuery, setYelpQuery] = useState('Corvallis');
+  const [isLoading, setIsLoading] = useState(false);
   
   async function fetchAndStorePokemon() {
+    setIsLoading(true);
     const data = await getPokemon(pokemonQuery);
+    setIsLoading(false);
     setPokemon(data.results);
   }
 
@@ -20,10 +24,10 @@ function App() {
   }
 
   useEffect(() => {
-    fetchAndStorePokemon();
     fetchAndStoreYelp();
+    fetchAndStorePokemon();
   }, []); //eslint-disable-line
-
+  
   async function handleSubmit(e) {
     e.preventDefault();
     await fetchAndStorePokemon();
@@ -44,12 +48,19 @@ function App() {
           <button>Search</button>
         </form>
         {
-          pokemon.map((poke, i) => <div
+          isLoading ? spinner : pokemon.map((poke, i) => <div
             key={poke.pokemon + i} className='pokemon'>
             <img src={poke.url_image} />
             <p>{poke.pokemon}</p>
           </div>)
         }
+        {/* {
+          pokemon.map((poke, i) => <div
+            key={poke.pokemon + i} className='pokemon'>
+            <img src={poke.url_image} />
+            <p>{poke.pokemon}</p>
+          </div>)
+        } */}
       </div>
       <div className='yelp-list'>
         <form onSubmit={handleYelpSubmit}>
