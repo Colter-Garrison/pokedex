@@ -19,7 +19,9 @@ function App() {
   }
 
   async function fetchAndStoreYelp() {
+    setIsLoading(true);
     const data = await getYelp(yelpQuery);
+    setIsLoading(false);
     setBusinesses(data.businesses);
   }
 
@@ -48,19 +50,12 @@ function App() {
           <button>Search</button>
         </form>
         {
-          isLoading ? spinner : pokemon.map((poke, i) => <div
+          isLoading ? <img src={spinner} /> : pokemon.map((poke, i) => <div
             key={poke.pokemon + i} className='pokemon'>
             <img src={poke.url_image} />
             <p>{poke.pokemon}</p>
           </div>)
         }
-        {/* {
-          pokemon.map((poke, i) => <div
-            key={poke.pokemon + i} className='pokemon'>
-            <img src={poke.url_image} />
-            <p>{poke.pokemon}</p>
-          </div>)
-        } */}
       </div>
       <div className='yelp-list'>
         <form onSubmit={handleYelpSubmit}>
@@ -68,7 +63,7 @@ function App() {
           <button>Search</button>
         </form>
         {
-          businesses.map((business, i) => <div
+          isLoading ? <img src={spinner} /> : businesses.map((business, i) => <div
             key={business.name + i} className='business'>
             <p>{business.name}</p>
           </div>)
