@@ -7,7 +7,7 @@ function App() {
   const [pokemon, setPokemon] = useState([]);
   const [pokemonQuery, setPokemonQuery] = useState([]);
   const [businesses, setBusinesses] = useState([]);
-  const [yelpQuery, setYelpQuery] = useState([]);
+  const [yelpQuery, setYelpQuery] = useState('Corvallis');
   
   async function fetchAndStorePokemon() {
     const data = await getPokemon(pokemonQuery);
@@ -21,7 +21,8 @@ function App() {
 
   useEffect(() => {
     fetchAndStorePokemon();
-  }, []);
+    fetchAndStoreYelp();
+  }, []); //eslint-disable-line
 
   async function handleSubmit(e) {
     e.preventDefault();
