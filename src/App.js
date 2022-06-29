@@ -21,7 +21,6 @@ function App() {
 
   useEffect(() => {
     fetchAndStorePokemon();
-    fetchAndStoreYelp();
   }, []);
 
   async function handleSubmit(e) {
